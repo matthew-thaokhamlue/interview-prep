@@ -41,6 +41,9 @@ Interview Preparation Guidelines/
 │
 ├── README.md                        ← You are here
 │
+├── .claude/agents/
+│   └── interview-prep.md            ← Claude Code agent (invoke with @interview-prep)
+│
 ├── inputs/
 │   ├── 00_user_profile.md                   ← Canonical personal profile and story bank
 │   ├── 01_cv_resume.md                      ← CV/resume source input
@@ -144,6 +147,16 @@ See `08_resources_and_prompts.md` for ready-to-use prompts:
 - Team interview prep prompt
 - Final round prep prompt
 - And more...
+
+## Claude Code Agent
+
+This repo includes a dedicated Claude Code agent for interview prep:
+
+- `.claude/agents/interview-prep.md`
+
+In Claude Code, invoke it with `@interview-prep` to get guided, stage-specific prep. The agent automatically reads your canonical profile, researches the company, and generates the correct output file for your current interview stage.
+
+---
 
 ## Portable Skill (Claude/Codex)
 
