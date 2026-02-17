@@ -1,0 +1,139 @@
+# User Profile Template - Master Story and Q&A Bank
+
+> Purpose: single source of truth for personal interview content.
+> Keep section numbering (`\u00a71`-`\u00a76`) because other docs reference it.
+
+## How to Fill This File
+
+1. Paste your resume into `inputs/01_cv_resume.md`.
+2. Add company and role context in `inputs/02_target_company_role.md`.
+3. Ask Claude/Codex to fill this file from those inputs.
+4. Review and correct anything inaccurate.
+
+Suggested prompt:
+
+```text
+Read inputs/01_cv_resume.md and inputs/02_target_company_role.md.
+Then fill inputs/00_user_profile.md with concrete data.
+Keep the \u00a71-\u00a76 structure.
+Use measurable outcomes where possible.
+If data is missing, mark it as [TO_FILL] instead of inventing facts.
+```
+
+---
+
+## \u00a71 Canonical Facts and Numbers
+
+### Professional Snapshot
+- Full name: [TO_FILL]
+- Target role(s): [TO_FILL]
+- Total years of experience: [TO_FILL]
+- Primary industries: [TO_FILL]
+- Core domains: [TO_FILL]
+
+### Key Metrics Table
+| Metric Type | Value | Context/Project |
+|---|---|---|
+| Revenue impact | [TO_FILL] | [TO_FILL] |
+| User/customer impact | [TO_FILL] | [TO_FILL] |
+| Team leadership scope | [TO_FILL] | [TO_FILL] |
+| Cost/time savings | [TO_FILL] | [TO_FILL] |
+| Product or model performance | [TO_FILL] | [TO_FILL] |
+
+### Non-Negotiable Consistency Rules
+- Numbers in all interview answers must match this section.
+- Dates and titles must stay consistent with your CV.
+
+---
+
+## \u00a72 Core Story Bank (STAR+)
+
+| Story ID | Situation | Task | Action | Result | Learning | Tags |
+|---|---|---|---|---|---|---|
+| Story A | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | Leadership, Impact |
+| Story B | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | Prioritization |
+| Story C | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | Stakeholders |
+| Story D | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | Collaboration |
+| Story E | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | Failure/Learning |
+| Story F | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | Execution |
+| Story G | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | Innovation |
+| Story H | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | Conflict |
+| Story I | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | Technical Depth |
+| Story J | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | Influence |
+| Story K | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | Resilience |
+
+---
+
+## \u00a73 Universal Q&A Bank
+
+### \u00a73.1 Motivation and Background
+- Tell me about yourself: [TO_FILL]
+- Why now / why this move: [TO_FILL]
+- Why this role/company: [TO_FILL]
+
+### \u00a73.2 Leadership
+- Leadership style: [TO_FILL]
+- Influence without authority: [TO_FILL]
+
+### \u00a73.3 Prioritization and Decision-Making
+- How you prioritize: [TO_FILL]
+- Example framework (RICE/ICE/etc.): [TO_FILL]
+
+### \u00a73.4 Working with Engineering/Technical Teams
+- Collaboration pattern: [TO_FILL]
+- Resolving tradeoffs: [TO_FILL]
+
+### \u00a73.5 Failure and Weakness
+- Failure story: [TO_FILL]
+- Weakness and improvement actions: [TO_FILL]
+
+### \u00a73.6 Stakeholder Management
+- Managing disagreement: [TO_FILL]
+- Executive communication style: [TO_FILL]
+
+### \u00a73.7 Working Style and Culture Fit
+- Preferred team environment: [TO_FILL]
+- Feedback style: [TO_FILL]
+
+### \u00a73.8 Strategy and Product Thinking
+- PMF/product strategy stance: [TO_FILL]
+- Build-vs-buy approach: [TO_FILL]
+
+---
+
+## \u00a74 Adaptable Frameworks
+
+### 30-60-90 Day Plan
+- Days 1-30 (Learn): [TO_FILL]
+- Days 31-60 (Stabilize): [TO_FILL]
+- Days 61-90 (Deliver): [TO_FILL]
+
+### Role-Specific Plan Variants
+- Early-stage company variant: [TO_FILL]
+- Growth-stage/company-scale variant: [TO_FILL]
+
+---
+
+## \u00a75 References and Testimonials
+
+| Reference Name | Role | Relationship | Strength Areas | Quote Snippet |
+|---|---|---|---|---|
+| [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] |
+| [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] | [TO_FILL] |
+
+---
+
+## \u00a76 Story-to-Question Mapping
+
+| Question Type | Primary Story | Backup Story |
+|---|---|---|
+| Leadership | [Story ID] | [Story ID] |
+| Prioritization | [Story ID] | [Story ID] |
+| Conflict | [Story ID] | [Story ID] |
+| Failure | [Story ID] | [Story ID] |
+| Collaboration | [Story ID] | [Story ID] |
+| Strategic thinking | [Story ID] | [Story ID] |
+
+---
+
+Last Updated: [YYYY-MM-DD]

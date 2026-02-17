@@ -1,0 +1,6 @@
+# macOS
+.DS_Store
+
+# Private/local personal inputs (keep local, do not publish)
+inputs/*commons*.md
+inputs/*cv*.txt
