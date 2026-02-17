@@ -1,6 +1,6 @@
 # Interview Preparation Guidelines
 
-A modular framework for preparing for multi-stage job interviews, designed for use with Claude Code.
+A modular framework for preparing for multi-stage job interviews, designed for AI tools like Claude Code and Codex.
 
 ---
 
@@ -104,34 +104,37 @@ Review `07_interview_execution.md` before each interview for:
 
 ---
 
-## Using with Claude Code
+## Using with AI Tools (Claude/Codex)
 
-### Recommended Workflow
+### Recommended Prompt Pattern
 
+```text
+Read inputs/00_user_profile.md, inputs/01_cv_resume.md, inputs/02_target_company_role.md,
+and [STAGE_FILE].
+Generate [OUTPUT_FILE] for [COMPANY] and [ROLE].
+Requirements:
+- Use concrete evidence and metrics from the input files.
+- Keep content interview-ready and non-placeholder.
+- If information is missing, add ASSUMPTION and list follow-up questions.
 ```
-# For HR screening prep
-"Read inputs/00_user_profile.md, inputs/01_cv_resume.md, inputs/02_target_company_role.md, and 01_hr_screening_round.md, then help me create my HR prep document for [Company]"
 
-# For hiring manager prep
-"Read inputs/00_user_profile.md, inputs/01_cv_resume.md, inputs/02_target_company_role.md, and 02_hiring_manager_round.md, then help me prepare behavioral answers for [Company]"
+### Stage File Map
 
-# For technical/case prep
-"Read inputs/00_user_profile.md, inputs/01_cv_resume.md, inputs/02_target_company_role.md, and 03_technical_case_round.md, then help me structure my case presentation for [Company]"
-
-# For team interview prep
-"Read inputs/00_user_profile.md, inputs/01_cv_resume.md, inputs/02_target_company_role.md, and 04_team_interview_round.md, then help me prepare for meeting the team at [Company]"
-
-# For final round prep
-"Read inputs/00_user_profile.md, inputs/01_cv_resume.md, inputs/02_target_company_role.md, and 05_final_executive_round.md, then help me create my 30-60-90 day plan for [Company]"
-```
+| Stage | `[STAGE_FILE]` | `[OUTPUT_FILE]` |
+|-------|----------------|-----------------|
+| HR/Screening | `01_hr_screening_round.md` | `01_hr_interview_prep.md` |
+| Hiring Manager | `02_hiring_manager_round.md` | `02_hiring_manager_prep.md` |
+| Technical/Case | `03_technical_case_round.md` | `03_presentation_slides.md` (+ optional `03_case_analysis.md`) |
+| Team Interview | `04_team_interview_round.md` | `04_team_interview_prep.md` |
+| Final/Executive | `05_final_executive_round.md` | `05_final_interview_slides.md` + `05_final_interview_prep.md` |
 
 ### Why Separate Files?
 
-- **Reduced context:** Claude reads only what's needed for your current stage
+- **Reduced context:** AI reads only what's needed for your current stage
 - **Faster responses:** Less content to process per request
 - **Focused help:** Each file is self-contained with relevant templates
 
-### Prompts for Each Stage
+### More Prompt Examples
 
 See `08_resources_and_prompts.md` for ready-to-use prompts:
 - Initial research prompt

@@ -5,7 +5,7 @@ This is a documentation-first repository for interview preparation workflows.
 - Core guides live in the repository root as numbered Markdown files: `00_overview_and_foundation.md` through `08_resources_and_prompts.md`.
 - `README.md` is the navigation entrypoint for contributors and users.
 - `inputs/` contains canonical source files: `inputs/00_user_profile.md`, `inputs/01_cv_resume.md`, and `inputs/02_target_company_role.md`.
-- Agent behavior and local automation context live under `.claude/` (for example, `.claude/agents/interview-prep.md`).
+- Agent behavior and local automation context can live under tool-specific folders (for example, `.claude/agents/interview-prep.md`).
 
 ## Build, Test, and Development Commands
 There is no build pipeline or runtime app in this project.
