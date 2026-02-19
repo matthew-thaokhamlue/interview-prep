@@ -185,40 +185,6 @@ Manual paths (if needed):
 
 ---
 
-## Typical Interview Timeline
-
-```
-WEEK 1: HR/SCREENING
-├── Read: 00_overview_and_foundation.md
-├── Read: 01_hr_screening_round.md
-├── Create: 01_hr_interview_prep.md
-└── Interview
-
-WEEK 2: HIRING MANAGER
-├── Read: 02_hiring_manager_round.md
-├── Create: 02_hiring_manager_prep.md
-└── Interview
-
-WEEK 3-4: TECHNICAL/CASE
-├── Read: 03_technical_case_round.md
-├── Create: 03_presentation_slides.md
-├── Create: 03_case_analysis.md
-└── Interview
-
-WEEK 5: TEAM INTERVIEW
-├── Read: 04_team_interview_round.md
-├── Create: 04_team_interview_prep.md
-└── Interview
-
-WEEK 6: FINAL/EXECUTIVE
-├── Read: 05_final_executive_round.md
-├── Create: 05_final_interview_slides.md
-├── Create: 05_final_interview_prep.md
-└── Interview
-```
-
----
-
 ## Output Files You'll Create
 
 For each company, you'll produce:
