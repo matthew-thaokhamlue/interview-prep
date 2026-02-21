@@ -1,237 +1,171 @@
-# Interview Preparation Guidelines
+# Interview Preparation Framework
 
-A modular framework for preparing for multi-stage job interviews, designed for AI tools like Claude Code and Codex.
+A modular, AI-native framework for preparing for multi-stage job interviews. Designed to work with Claude Code — paste your CV once, and agents handle the rest.
 
 ---
 
 ## Quick Start
 
-1. **Download this repo and fill raw inputs first**: complete `inputs/01_cv_resume.md` and `inputs/02_target_company_role.md`.
-2. **Ask AI to generate your canonical profile** (`inputs/00_user_profile.md`) from the template:
-   ```text
-   Read inputs/01_cv_resume.md and inputs/02_target_company_role.md.
-   Then generate inputs/00_user_profile.md using the existing template structure.
-   Replace placeholders with concrete details, keep metrics consistent with sources,
-   and label any gaps as ASSUMPTION.
-   ```
-3. **Install skill + start current round**:
-   - Install once: `./scripts/install-skill.sh`
-   - Then run a stage prompt:
-   ```text
-   Read inputs/00_user_profile.md, inputs/01_cv_resume.md, inputs/02_target_company_role.md,
-   and [STAGE_FILE]. Generate [OUTPUT_FILE] with interview-ready, non-placeholder content.
-   ```
-   Example: `[STAGE_FILE]=01_hr_screening_round.md`, `[OUTPUT_FILE]=01_hr_interview_prep.md`
+### Step 1 — Onboard (run once)
+
+In Claude Code, run the **onboarding agent** and paste your CV:
+
+```
+Run the onboarding agent. Here is my CV:
+
+[paste your CV text here — any format works]
+```
+
+Or if your CV is in a file:
+
+```
+Run the onboarding agent. My CV is at: [file path]
+```
+
+The onboarding agent will:
+- Extract all structured data from your CV
+- Write `inputs/01_cv_resume.md` (canonicalized CV data)
+- Write `inputs/00_user_profile.md` §1–§6 (facts, stories, Q&A, mapping)
+- Flag any `[TO_VERIFY]` items for your review
+
+### Step 2 — Add company context
+
+Fill `inputs/02_target_company_role.md` with the company, role, interview stage, and job description.
+
+### Step 3 — Generate stage prep
+
+Run the **interview-prep agent** for your current stage:
+
+```
+Run the interview-prep agent. I'm preparing for a Stage 1 HR screening at [Company] for [Role].
+Here's the job description: [paste JD]
+```
+
+The agent reads your profile and generates a ready-to-use prep document (`01_hr_interview_prep.md`, `02_hiring_manager_prep.md`, etc.).
 
 ---
 
 ## Interview Flow (5 Stages)
 
 ```
-HR/Screening → Hiring Manager → Technical/Case → Team Interview → Final/Executive
-   Stage 1         Stage 2          Stage 3          Stage 4          Stage 5
+Stage 1: HR/Screening → Stage 2: Hiring Manager → Stage 3: Technical/Case → Stage 4: Team Interview → Stage 5: Final/Executive
 ```
+
+Each stage builds on the previous one. Your canonical profile (`inputs/00_user_profile.md`) feeds all stages with consistent facts, stories, and numbers.
 
 ---
 
 ## File Structure
 
 ```
-Interview Preparation Guidelines/
+Interview Prep Framework/
 │
-├── README.md                        ← You are here
+├── README.md                              ← You are here
 │
 ├── .claude/agents/
-│   └── interview-prep.md            ← Claude Code agent (invoke with @interview-prep)
+│   ├── onboarding.md                      ← Run first: parses CV and populates profile
+│   └── interview-prep.md                  ← Run per stage: generates prep documents
 │
 ├── inputs/
-│   ├── 00_user_profile.md                   ← Canonical personal profile and story bank
-│   ├── 01_cv_resume.md                      ← CV/resume source input
-│   └── 02_target_company_role.md            ← Company + role + interviewer context
+│   ├── 00_user_profile.md                 ← Auto-populated by onboarding agent (canonical profile)
+│   ├── 01_cv_resume.md                    ← Auto-populated by onboarding agent (structured CV data)
+│   └── 02_target_company_role.md          ← Fill manually: company, role, stage, JD
 │
-├── GUIDELINE FILES (read these)
-│   ├── 00_overview_and_foundation.md   ← Start here
-│   ├── 01_hr_screening_round.md        ← Stage 1: HR/Screening
-│   ├── 02_hiring_manager_round.md      ← Stage 2: Hiring Manager (Behavioral)
-│   ├── 03_technical_case_round.md      ← Stage 3: Technical/Case
-│   ├── 04_team_interview_round.md      ← Stage 4: Team/Peer Interview
-│   ├── 05_final_executive_round.md     ← Stage 5: Final/Executive
-│   ├── 06_cross_stage_frameworks.md    ← Reusable framework templates to adapt
-│   ├── 07_interview_execution.md       ← Day-of tips
-│   └── 08_resources_and_prompts.md     ← Claude prompts
+├── GUIDELINE FILES
+│   ├── 00_overview_and_foundation.md      ← Core principles and 5-stage framework
+│   ├── 01_hr_screening_round.md           ← Stage 1: HR/Screening
+│   ├── 02_hiring_manager_round.md         ← Stage 2: Hiring Manager (Behavioral)
+│   ├── 03_technical_case_round.md         ← Stage 3: Technical/Case
+│   ├── 04_team_interview_round.md         ← Stage 4: Team/Peer Interview
+│   ├── 05_final_executive_round.md        ← Stage 5: Final/Executive
+│   ├── 06_cross_stage_frameworks.md       ← Reusable STAR+, RICE, and other frameworks
+│   ├── 07_interview_execution.md          ← Day-of checklists and tips
+│   └── 08_resources_and_prompts.md        ← Ready-to-use Claude prompts for each stage
 │
-└── e2e_interview_prep_guideline_by_claude.md  ← Combined 5-stage single-file reference
+└── e2e_interview_prep_guideline_by_claude.md  ← Combined single-file reference
 ```
 
 ---
 
-## How to Use These Files
+## The Two Agents
 
-### Step 1: Foundation (Do Once Per Company)
+### `onboarding` — Run once per profile update
 
-Read `00_overview_and_foundation.md` to:
-- Understand the core principles
-- See how stages build on each other
-- Complete foundation research (company, role, interviewers)
+Accepts your CV in any format (raw text paste, file path, or inline in chat). Extracts all structured data and writes both canonical input files in a single pass.
 
-### Step 2: Stage-Specific Prep
+**What it populates:**
+- `inputs/01_cv_resume.md` — structured CV: roles, dates, achievements, education, skills
+- `inputs/00_user_profile.md` §1–§6 — professional snapshot, STAR+ story bank, universal Q&A answers, story-to-question mapping
 
-Read the file for your current interview stage:
+**What it cannot infer (you fill these later):**
+- `§4` 30-60-90 day plan — requires company context from `inputs/02_target_company_role.md`
+- `§5` References — must be added manually
 
-| Stage | File | Output You'll Create |
-|-------|------|---------------------|
-| HR/Screening | `01_hr_screening_round.md` | `01_hr_interview_prep.md` |
-| Hiring Manager | `02_hiring_manager_round.md` | `02_hiring_manager_prep.md` |
-| Technical/Case | `03_technical_case_round.md` | `03_presentation_slides.md` + `03_case_analysis.md` |
-| Team Interview | `04_team_interview_round.md` | `04_team_interview_prep.md` |
-| Final/Executive | `05_final_executive_round.md` | `05_final_interview_slides.md` + `05_final_interview_prep.md` |
-
-### Step 3: Build Reusable Content
-
-Your reusable content should live in **`inputs/00_user_profile.md`**:
-- Story bank: 11 STAR+ stories (A–K) with tags and question mapping (§2, §6)
-- Proof points: Key numbers from your own experience (§1)
-- Universal Q&A answers: Motivation, leadership, prioritization, failure, etc. (§3)
-- 30-60-90 day plan template (§4)
-- References & testimonials (§5)
-
-Use `06_cross_stage_frameworks.md` for the generic framework structure.
-
-### Step 4: Interview Day
-
-Review `07_interview_execution.md` before each interview for:
-- Pre-interview checklist
-- During-interview tips
-- Closing strong
-- Thank-you email template
+Re-run anytime you update your CV.
 
 ---
 
-## Using with AI Tools (Claude/Codex)
+### `interview-prep` — Run per stage
 
-### Recommended Prompt Pattern
+Reads your populated profile and generates a stage-specific prep document. Requires `inputs/00_user_profile.md` to be populated (runs the onboarding guard if not).
 
-```text
-Read inputs/00_user_profile.md, inputs/01_cv_resume.md, inputs/02_target_company_role.md,
-and [STAGE_FILE].
-Generate [OUTPUT_FILE] for [COMPANY] and [ROLE].
-Requirements:
-- Use concrete evidence and metrics from the input files.
-- Keep content interview-ready and non-placeholder.
-- If information is missing, add ASSUMPTION and list follow-up questions.
-```
+**Outputs it creates:**
 
-### Stage File Map
-
-| Stage | `[STAGE_FILE]` | `[OUTPUT_FILE]` |
-|-------|----------------|-----------------|
-| HR/Screening | `01_hr_screening_round.md` | `01_hr_interview_prep.md` |
-| Hiring Manager | `02_hiring_manager_round.md` | `02_hiring_manager_prep.md` |
-| Technical/Case | `03_technical_case_round.md` | `03_presentation_slides.md` (+ optional `03_case_analysis.md`) |
-| Team Interview | `04_team_interview_round.md` | `04_team_interview_prep.md` |
-| Final/Executive | `05_final_executive_round.md` | `05_final_interview_slides.md` + `05_final_interview_prep.md` |
-
-### Why Separate Files?
-
-- **Reduced context:** AI reads only what's needed for your current stage
-- **Faster responses:** Less content to process per request
-- **Focused help:** Each file is self-contained with relevant templates
-
-### More Prompt Examples
-
-See `08_resources_and_prompts.md` for ready-to-use prompts:
-- Initial research prompt
-- HR round prep prompt
-- Hiring manager prep prompt
-- Case assignment analysis prompt
-- Team interview prep prompt
-- Final round prep prompt
-- And more...
-
-## Claude Code Agent
-
-This repo includes a dedicated Claude Code agent for interview prep:
-
-- `.claude/agents/interview-prep.md`
-
-In Claude Code, invoke it with `@interview-prep` to get guided, stage-specific prep. The agent automatically reads your canonical profile, researches the company, and generates the correct output file for your current interview stage.
+| Stage | Output File |
+|-------|-------------|
+| 1. HR/Screening | `01_hr_interview_prep.md` |
+| 2. Hiring Manager | `02_hiring_manager_prep.md` |
+| 3. Technical/Case | `03_presentation_slides.md` (+ `03_case_analysis.md`) |
+| 4. Team Interview | `04_team_interview_prep.md` |
+| 5. Final/Executive | `05_final_interview_slides.md` + `05_final_interview_prep.md` |
 
 ---
 
-## Portable Skill (Claude/Codex)
+## Input Files
 
-This repo includes a portable skill package:
+| File | How It Gets Filled | What's Inside |
+|------|--------------------|---------------|
+| `inputs/00_user_profile.md` | Onboarding agent (auto) | §1 facts & metrics, §2 STAR+ stories A–K, §3 Q&A bank, §4 frameworks, §5 references, §6 story mapping |
+| `inputs/01_cv_resume.md` | Onboarding agent (auto) | Structured CV: roles, achievements, education, skills, raw CV text |
+| `inputs/02_target_company_role.md` | You (manual, per application) | Company, role, stage, JD, interviewer names |
 
-- `skills/interview-prep-portable/SKILL.md`
-
-Install it locally to reuse this workflow in other repositories:
-
-```bash
-./scripts/install-skill.sh
-```
-
-Optional targets:
-
-```bash
-./scripts/install-skill.sh claude
-./scripts/install-skill.sh codex
-./scripts/install-skill.sh both --force
-```
-
-Manual paths (if needed):
-
-1. Claude Code: copy `skills/interview-prep-portable/` to `~/.claude/skills/`
-2. Codex: copy `skills/interview-prep-portable/` to `~/.agents/skills/` (or your configured skills directory)
+> **Note:** Do not edit `inputs/00_user_profile.md` or `inputs/01_cv_resume.md` by hand. Re-run the onboarding agent to regenerate them from an updated CV.
 
 ---
 
-## Output Files You'll Create
+## Guideline Files
 
-For each company, you'll produce:
-
-```
-/[Company Name]/
-├── Inputs/
-│   ├── job_description.txt
-│   └── case_assignment.txt
-│
-└── Output/md/
-    ├── 01_hr_interview_prep.md          ← From Stage 1
-    ├── 02_hiring_manager_prep.md        ← From Stage 2
-    ├── 03_presentation_slides.md        ← From Stage 3
-    ├── 03_case_analysis.md              ← From Stage 3 (supporting)
-    ├── 04_team_interview_prep.md        ← From Stage 4
-    ├── 05_final_interview_slides.md     ← From Stage 5
-    └── 05_final_interview_prep.md       ← From Stage 5
-```
+| File | When to Read |
+|------|--------------|
+| `00_overview_and_foundation.md` | First, before any stage |
+| `01_hr_screening_round.md` | Before Stage 1 |
+| `02_hiring_manager_round.md` | Before Stage 2 |
+| `03_technical_case_round.md` | Before Stage 3 |
+| `04_team_interview_round.md` | Before Stage 4 |
+| `05_final_executive_round.md` | Before Stage 5 |
+| `06_cross_stage_frameworks.md` | Reference throughout |
+| `07_interview_execution.md` | Day before each interview |
+| `08_resources_and_prompts.md` | For ready-to-use prompts |
 
 ---
 
-## File Reference
+## Key Frameworks
 
-| File | When to Read | What's Inside |
-|------|--------------|---------------|
-| `inputs/00_user_profile.md` | First, always | **Your canonical profile:** stories, numbers, universal Q&A, 30-60-90 plans, references |
-| `inputs/01_cv_resume.md` | Before filling profile | Resume/CV source material used to generate profile content |
-| `inputs/02_target_company_role.md` | Per application | Company/role/interviewer context for targeted prep |
-| `00_overview_and_foundation.md` | First, always | Core principles, 5-stage framework, research checklists |
-| `01_hr_screening_round.md` | Before HR call | HR prep template, Q&A categories, logistics prep |
-| `02_hiring_manager_round.md` | Before HM interview | Behavioral questions, STAR+ stories, working style |
-| `03_technical_case_round.md` | Before technical | Presentation structure, RICE framework, case tips |
-| `04_team_interview_round.md` | Before team interview | Peer profiles, collaboration scenarios, culture fit |
-| `05_final_executive_round.md` | Before final | 30-60-90 plan, competitive defense, stakeholder profiles |
-| `06_cross_stage_frameworks.md` | Throughout | Story bank, STAR+, proof points, universal questions |
-| `07_interview_execution.md` | Day before | Checklists, video/in-person tips, thank-you template |
-| `08_resources_and_prompts.md` | As needed | File organization, Claude prompts, example timeline |
+- **STAR+** — Situation, Task, Action, Result, + Learning (used in `§2` story bank)
+- **RICE** — Reach, Impact, Confidence, Effort (for prioritization questions)
+- **30-60-90 Day Plan** — Learn → Stabilize → Deliver (used in Stage 5)
+- **Rule of 3** — Three concrete proof points for every key claim
+
+---
+
+## Privacy Note
+
+`inputs/00_user_profile.md`, `inputs/01_cv_resume.md`, and any files you create under company-named folders will contain personal data. Do not commit these to a public repository unless you intend to share them.
 
 ---
 
 ## Version
 
-- **Version:** 3.0
+- **Version:** 3.1
 - **Last Updated:** February 2026
-- **Changes:** Added Hiring Manager (Stage 2) and Team Interview (Stage 4) rounds
-
----
-
-*Good luck with your interviews!*
+- **Changes:** Added dedicated onboarding agent for automatic CV parsing; `inputs/01_cv_resume.md` is now an agent output (not a manual input); interview-prep agent now includes preflight profile guard

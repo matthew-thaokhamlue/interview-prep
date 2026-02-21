@@ -1,33 +1,28 @@
-# Inputs Folder Guide
+# Inputs Folder
 
-This folder stores personal and company-specific data used by AI tools (Claude, Codex) to generate interview prep outputs.
+This folder stores the canonical data files used by agents to generate interview prep outputs.
 
-## Recommended Files (Template-Based)
+## Files
 
-Use these as the default sharable inputs:
-- `inputs/00_user_profile.md`
-- `inputs/01_cv_resume.md`
-- `inputs/02_target_company_role.md`
+| File | How It Gets Filled |
+|------|--------------------|
+| `00_user_profile.md` | **Auto-populated by the onboarding agent** — do not edit manually |
+| `01_cv_resume.md` | **Auto-populated by the onboarding agent** — do not edit manually |
+| `02_target_company_role.md` | **Fill this manually** — one per application |
 
-## Private Data Handling
+## How to Populate
 
-If you keep personal files in this folder, do not commit them publicly.
-Use only the template files for sharable repositories, and replace placeholders with your own information.
+Run the onboarding agent in Claude Code with your CV:
 
-## Quick AI Prompt
-
-Use this prompt to generate a filled profile from your inputs:
-
-```text
-Read these files:
-1) inputs/01_cv_resume.md
-2) inputs/02_target_company_role.md
-3) Any additional files in inputs/
-
-Then fill and update inputs/00_user_profile.md with concrete facts, story bank entries, Q&A answers, and story-question mapping.
-Do not leave placeholders when information exists in the inputs.
 ```
+Run the onboarding agent. Here is my CV:
+
+[paste CV text]
+```
+
+The onboarding agent writes `00_user_profile.md` and `01_cv_resume.md` in one pass.
+After that, fill `02_target_company_role.md` with company and role context, then run the interview-prep agent.
 
 ## Privacy Note
 
-Do not commit sensitive personal information to public repositories unless you intend to share it.
+These files will contain personal data. Do not commit them to a public repository unless you intend to share them.
