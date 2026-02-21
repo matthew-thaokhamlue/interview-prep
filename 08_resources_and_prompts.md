@@ -49,7 +49,33 @@
 
 ## Prompts for Claude
 
-> **Important:** All prompts below assume Claude will read `inputs/00_user_profile.md` first. If that file is incomplete, Claude should pull missing details from `inputs/01_cv_resume.md`, `inputs/02_target_company_role.md`, and other files in `inputs/`.
+> **Important:** All prompts below assume `inputs/00_user_profile.md` has been populated by the onboarding agent. If §1 or §2 still contain `[TO_FILL]`, run the onboarding agent first (see §0 below).
+
+### §0: Profile Onboarding (Run Once — Before Any Stage)
+
+Run this once when you first set up the repo, or whenever you update your CV.
+
+```
+Run the onboarding agent. Here is my CV:
+
+[paste your CV text here — any format works]
+```
+
+Or, if your CV is in a file:
+
+```
+Run the onboarding agent. My CV is at: [file path]
+```
+
+The onboarding agent will:
+1. Extract all structured data from your CV
+2. Write `inputs/01_cv_resume.md` (canonicalized CV data)
+3. Write `inputs/00_user_profile.md` §1–§6 (facts, stories, Q&A, mapping)
+4. Flag any `[TO_VERIFY]` items for your review
+
+After onboarding, fill `inputs/02_target_company_role.md` with company and role context, then proceed to the stage prompts below.
+
+---
 
 ### Initial Research Prompt
 

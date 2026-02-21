@@ -1,6 +1,8 @@
-# CV / Resume Input Template
+# CV / Resume — Canonical Data
 
-> Paste your latest resume text here. Keep original wording where possible.
+> This file is written by the onboarding agent. Do not fill manually.
+> To populate this file, run the **onboarding agent** and provide your CV in any format (raw text paste, file path, or inline in chat).
+> Last updated: [YYYY-MM-DD]
 
 ## Basic Info
 - Full name: [TO_FILL]
@@ -9,11 +11,11 @@
 - Location/time zone: [TO_FILL]
 
 ## Summary
-[PASTE_OR_WRITE_SUMMARY]
+[TO_FILL]
 
 ## Experience
 
-### Role 1
+### Role 1: [Title] at [Company]
 - Company: [TO_FILL]
 - Title: [TO_FILL]
 - Dates: [TO_FILL]
@@ -22,7 +24,7 @@
   - [TO_FILL]
   - [TO_FILL]
 
-### Role 2
+### Role 2: [Title] at [Company]
 - Company: [TO_FILL]
 - Title: [TO_FILL]
 - Dates: [TO_FILL]
@@ -35,10 +37,12 @@
 - [TO_FILL]
 
 ## Skills
-- [TO_FILL]
+- Technical: [TO_FILL]
+- Domain: [TO_FILL]
+- Languages: [TO_FILL]
 
-## Raw Resume Text (Optional but recommended)
+## Raw Resume Text
 
 ```text
-[PASTE_FULL_RESUME_TEXT]
+[Original CV content preserved here by the onboarding agent for auditability]
 ```
