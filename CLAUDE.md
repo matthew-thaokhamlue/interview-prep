@@ -8,8 +8,8 @@ This is a documentation-only repository containing interview preparation guideli
 
 ## File Structure
 
-- **`inputs/00_user_profile.md`** - **READ THIS FIRST for any interview prep.** Your personal master file: canonical facts/numbers, STAR+ stories, universal Q&A bank, 30-60-90 templates, references.
-- `inputs/01_cv_resume.md` - Resume/CV source input used to build or refresh the profile file
+- **`inputs/00_user_profile.md`** - **READ THIS FIRST for any interview prep.** Auto-populated by the onboarding agent. Canonical facts/numbers, STAR+ stories, universal Q&A bank, 30-60-90 templates, references.
+- `inputs/01_cv_resume.md` - Canonicalized CV data. Written by the onboarding agent (do not fill manually).
 - `inputs/02_target_company_role.md` - Company, role, interview stage, and interviewer context
 - `00_overview_and_foundation.md` - Core principles, 5-stage framework, research checklists
 - `01_hr_screening_round.md` - HR prep template, Q&A categories, logistics
@@ -21,6 +21,8 @@ This is a documentation-only repository containing interview preparation guideli
 - `07_interview_execution.md` - Day-of checklists, video/in-person tips
 - `08_resources_and_prompts.md` - Ready-to-use prompts for each interview stage
 - `e2e_interview_prep_guideline_by_claude.md` - Combined 5-stage single-file reference (modular files remain canonical for maintenance)
+- `.claude/agents/onboarding.md` - **Onboarding agent.** Run this first to parse a CV and auto-populate the profile.
+- `.claude/agents/interview-prep.md` - Interview prep agent for generating stage-specific prep documents.
 
 ## Interview Flow (5 Stages)
 
@@ -32,8 +34,9 @@ Stage 1: HR/Screening → Stage 2: Hiring Manager → Stage 3: Technical/Case �
 
 When users request interview prep assistance:
 
+0. **Check if `inputs/00_user_profile.md` is populated.** If §1 or §2 still contain `[TO_FILL]`, direct the user to run the **onboarding agent** first. The onboarding agent parses their CV in any format and auto-populates both `inputs/01_cv_resume.md` and `inputs/00_user_profile.md`.
 1. **ALWAYS read `inputs/00_user_profile.md` first** as the canonical source of personal facts and stories.
-2. If `inputs/00_user_profile.md` is incomplete, derive missing data from `inputs/01_cv_resume.md`, `inputs/02_target_company_role.md`, and any other files in `inputs/`.
+2. If `inputs/00_user_profile.md` has minor gaps in §3–§6, derive missing data from `inputs/01_cv_resume.md` and `inputs/02_target_company_role.md`. Do not derive §1 or §2 inline — that's the onboarding agent's job.
 3. For a new interview process, read `00_overview_and_foundation.md`.
 4. For a specific stage, read the corresponding numbered file (`01_` through `05_`) and populate outputs from the profile data.
 5. For reusable framing, read `06_cross_stage_frameworks.md`.
