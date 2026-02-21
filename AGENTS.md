@@ -1,36 +1,81 @@
-# Repository Guidelines
+# AGENTS.md
 
-## Project Structure & Module Organization
-This is a documentation-first repository for interview preparation workflows.
-- Core guides live in the repository root as numbered Markdown files: `00_overview_and_foundation.md` through `08_resources_and_prompts.md`.
-- `README.md` is the navigation entrypoint for contributors and users.
-- `inputs/` contains canonical source files: `inputs/00_user_profile.md`, `inputs/01_cv_resume.md`, and `inputs/02_target_company_role.md`.
-- Agent behavior and local automation context can live under tool-specific folders (for example, `.claude/agents/interview-prep.md`).
+This file provides guidance for AI coding tools (Claude Code/Codex/OpenClaw) when working in this repository. The filename is kept as `CLAUDE.md` for Claude compatibility.
 
-## Build, Test, and Development Commands
-There is no build pipeline or runtime app in this project.
-- `./scripts/install-skill.sh` installs the portable skill to local Claude/Codex skill directories.
-- `rg --files` lists repository files quickly.
-- `rg -n "TODO|\\[ \\]|TBD" *.md inputs/*.md` finds unresolved placeholders.
-- `rg -n "^#|^##" *.md inputs/*.md` checks heading structure consistency.
-- `markdownlint "**/*.md"` is recommended if `markdownlint` is installed.
+## Repository Overview
 
-## Coding Style & Naming Conventions
-- Write content in Markdown using clear ATX headings (`#`, `##`, `###`).
-- Keep stage/framework files zero-padded and descriptive: `NN_topic.md` (example: `03_technical_case_round.md`).
-- Keep generated prep outputs stage-prefixed (example: `01_hr_interview_prep.md`).
-- Prefer concise bullets and tables over long prose blocks.
-- Do not leave placeholders when real values exist in `inputs/00_user_profile.md`, `inputs/01_cv_resume.md`, or `inputs/02_target_company_role.md`.
+This is a documentation-only repository containing interview preparation guidelines. There is no code, build system, or tests - only markdown files with templates and frameworks for multi-stage job interviews.
 
-## Testing Guidelines
-This repository has no automated test framework.
-- Validate links and cross-file references after edits.
-- Verify stage numbering and filename prefixes remain consistent.
-- Re-check copied metrics and facts against `inputs/00_user_profile.md` and source evidence in `inputs/01_cv_resume.md`.
-- In a Git clone, review Markdown-only changes with `git diff -- *.md`.
+## File Structure
 
-## Commit & Pull Request Guidelines
-No `.git` directory is present in this workspace, so project-specific history conventions cannot be inferred here.
-- Recommended commit style: `docs(scope): short summary` (example: `docs(stage-04): tighten team interview prompts`).
-- Keep commits focused on one stage or one document family.
-- PRs should include: purpose, changed files, a short before/after excerpt, and any source-of-truth updates made in `inputs/00_user_profile.md`, `inputs/01_cv_resume.md`, or `inputs/02_target_company_role.md`.
+- **`inputs/00_user_profile.md`** - **READ THIS FIRST for any interview prep.** Auto-populated by the onboarding agent. Canonical facts/numbers, STAR+ stories, universal Q&A bank, 30-60-90 templates, references.
+- `inputs/01_cv_resume.md` - Canonicalized CV data. Written by the onboarding agent (do not fill manually).
+- `inputs/02_target_company_role.md` - Company, role, interview stage, and interviewer context
+- `00_overview_and_foundation.md` - Core principles, 5-stage framework, research checklists
+- `01_hr_screening_round.md` - HR prep template, Q&A categories, logistics
+- `02_hiring_manager_round.md` - Behavioral interview prep, STAR+ stories, working style
+- `03_technical_case_round.md` - Presentation structure, RICE framework, case tips
+- `04_team_interview_round.md` - Peer interview prep, collaboration scenarios, culture fit
+- `05_final_executive_round.md` - 30-60-90 plan, competitive defense, stakeholder profiles
+- `06_cross_stage_frameworks.md` - Story bank, STAR+, proof points, universal questions (generic frameworks)
+- `07_interview_execution.md` - Day-of checklists, video/in-person tips
+- `08_resources_and_prompts.md` - Ready-to-use prompts for each interview stage
+- `e2e_interview_prep_guideline_by_claude.md` - Combined 5-stage single-file reference (modular files remain canonical for maintenance)
+- `.claude/agents/onboarding.md` - **Onboarding agent.** Run this first to parse a CV and auto-populate the profile.
+- `.claude/agents/interview-prep.md` - Interview prep agent for generating stage-specific prep documents.
+
+## Interview Flow (5 Stages)
+
+```
+Stage 1: HR/Screening → Stage 2: Hiring Manager → Stage 3: Technical/Case → Stage 4: Team Interview → Stage 5: Final/Executive
+```
+
+## How to Help Users
+
+When users request interview prep assistance:
+
+0. **Check if `inputs/00_user_profile.md` is populated.** If §1 or §2 still contain `[TO_FILL]`, direct the user to run the **onboarding agent** first. The onboarding agent parses their CV in any format and auto-populates both `inputs/01_cv_resume.md` and `inputs/00_user_profile.md`.
+1. **ALWAYS read `inputs/00_user_profile.md` first** as the canonical source of personal facts and stories.
+2. If `inputs/00_user_profile.md` has minor gaps in §3–§6, derive missing data from `inputs/01_cv_resume.md` and `inputs/02_target_company_role.md`. Do not derive §1 or §2 inline — that's the onboarding agent's job.
+3. For a new interview process, read `00_overview_and_foundation.md`.
+4. For a specific stage, read the corresponding numbered file (`01_` through `05_`) and populate outputs from the profile data.
+5. For reusable framing, read `06_cross_stage_frameworks.md`.
+6. For prompt templates, read `08_resources_and_prompts.md`.
+
+### Mapping: Commons Sections → Interview Stages
+
+| Commons Section | Use For |
+|----------------|---------|
+| §1 Canonical Facts & Numbers | All stages — consistent numbers across every interview |
+| §2 Core Story Bank (Stories A–K) | Stages 2–5 — select stories using §6 mapping table |
+| §3 Universal Q&A Bank | Stages 1–5 — adapt per company, never contradict core answers |
+| §4 Adaptable Frameworks (30-60-90) | Stage 5 — fill in company-specific details |
+| §5 References & Testimonials | Stages 2, 4, 5 — "What would colleagues say?" |
+| §6 Story ↔ Question Mapping | All stages — quick lookup for which story answers which question |
+
+## Critical Rule
+
+When generating any prep document, **always pull real content from `inputs/00_user_profile.md`** instead of leaving template placeholders. For example:
+- "Your Numbers" → use §1 Key Numbers (e.g., "[X years]," "[Y impact metric]," "[Z scale metric]")
+- "Story Bank" → select from §2 Stories A–K using the §6 mapping table
+- "Walk me through your background" → use §3.1 prepared intro
+- "Tell me about a failure" → use §3.5 with Story H or Story E
+- "30-60-90 plan" → use §4.1 template, adapted for the company
+
+## Output Files to Create
+
+For each company, help users create:
+- `01_hr_interview_prep.md` - From Stage 1 template
+- `02_hiring_manager_prep.md` - From Stage 2 template
+- `03_presentation_slides.md` - From Stage 3 template
+- `03_case_analysis.md` - Supporting analysis for Stage 3
+- `04_team_interview_prep.md` - From Stage 4 template
+- `05_final_interview_slides.md` - From Stage 5 template (condensed for executives)
+- `05_final_interview_prep.md` - From Stage 5 template (comprehensive Q&A)
+
+## Key Frameworks
+
+- **STAR+**: Situation, Task, Action, Result, + Learning
+- **RICE**: Reach, Impact, Confidence, Effort (for prioritization)
+- **30-60-90 Day Plan**: Learn → Stabilize → Deliver
+- **Rule of 3**: Three concrete proof points for key claims
