@@ -1,6 +1,6 @@
 # Interview Preparation Framework
 
-A modular, AI-native framework for preparing for multi-stage job interviews. Designed to work with Claude Code — paste your CV once, and agents handle the rest.
+A modular, AI-native framework for preparing for multi-stage job interviews. Designed to work with Claude Code — paste your CV once, then name the company and the agent researches it and builds your prep documents automatically.
 
 ---
 
@@ -28,20 +28,40 @@ The onboarding agent will:
 - Write `inputs/00_user_profile.md` §1–§6 (facts, stories, Q&A, mapping)
 - Flag any `[TO_VERIFY]` items for your review
 
-### Step 2 — Add company context
+### Step 2 — Generate stage prep (company research is automatic)
 
-Fill `inputs/02_target_company_role.md` with the company, role, interview stage, and job description.
-
-### Step 3 — Generate stage prep
-
-Run the **interview-prep agent** for your current stage:
+Run the **interview-prep agent** and tell it the company, role, stage, and JD:
 
 ```
 Run the interview-prep agent. I'm preparing for a Stage 1 HR screening at [Company] for [Role].
-Here's the job description: [paste JD]
+Here's the job description: [paste JD text, or provide the job posting URL]
 ```
 
-The agent reads your profile and generates a ready-to-use prep document (`01_hr_interview_prep.md`, `02_hiring_manager_prep.md`, etc.).
+The agent will automatically:
+1. **Search the web** for the company's product, business model, competitors, and recent news
+2. **Fetch the JD** from the URL if you provided a link instead of pasting
+3. **Research interviewers** (if you provide their names) to guess their focus areas
+4. **Write findings into `inputs/02_target_company_role.md`** so you can review them
+5. **Generate your prep document** (`01_hr_interview_prep.md`, `02_hiring_manager_prep.md`, etc.)
+
+> **Prefer to research manually?** Fill `inputs/02_target_company_role.md` yourself before running the agent. It will use your data and skip searching for any field you have already filled.
+
+---
+
+## Smart Company Research
+
+The interview-prep agent uses web search to populate company context automatically. Here is what it researches and how:
+
+| Field | How It's Filled |
+|---|---|
+| Product / domain | WebSearch: `"[Company] product overview"` |
+| Business model | WebSearch: `"[Company] business model revenue"` |
+| Key competitors | WebSearch: `"[Company] competitors"` |
+| Recent news | WebSearch: `"[Company] news [current year]"` |
+| Job description fields | WebFetch on your application URL (if provided) |
+| Interviewer focus guess | WebSearch: `"[Interviewer Name] [Company]"` |
+
+Web-sourced data is tagged `[WEB]` in the output file so you always know which fields came from a search vs. your own notes. Any uncertain findings are also tagged `[TO_VERIFY]` for your review.
 
 ---
 
@@ -64,12 +84,12 @@ Interview Prep Framework/
 │
 ├── .claude/agents/
 │   ├── onboarding.md                      ← Run first: parses CV and populates profile
-│   └── interview-prep.md                  ← Run per stage: generates prep documents
+│   └── interview-prep.md                  ← Run per stage: researches company + generates prep docs
 │
 ├── inputs/
 │   ├── 00_user_profile.md                 ← Auto-populated by onboarding agent (canonical profile)
 │   ├── 01_cv_resume.md                    ← Auto-populated by onboarding agent (structured CV data)
-│   └── 02_target_company_role.md          ← Fill manually: company, role, stage, JD
+│   └── 02_target_company_role.md          ← Auto-populated by interview-prep agent (company + JD context)
 │
 ├── GUIDELINE FILES
 │   ├── 00_overview_and_foundation.md      ← Core principles and 5-stage framework
@@ -98,7 +118,7 @@ Accepts your CV in any format (raw text paste, file path, or inline in chat). Ex
 - `inputs/00_user_profile.md` §1–§6 — professional snapshot, STAR+ story bank, universal Q&A answers, story-to-question mapping
 
 **What it cannot infer (you fill these later):**
-- `§4` 30-60-90 day plan — requires company context from `inputs/02_target_company_role.md`
+- `§4` 30-60-90 day plan — requires company context
 - `§5` References — must be added manually
 
 Re-run anytime you update your CV.
@@ -107,7 +127,20 @@ Re-run anytime you update your CV.
 
 ### `interview-prep` — Run per stage
 
-Reads your populated profile and generates a stage-specific prep document. Requires `inputs/00_user_profile.md` to be populated (runs the onboarding guard if not).
+Reads your populated profile, researches the company via web search, and generates a stage-specific prep document. Requires `inputs/00_user_profile.md` to be populated (runs the onboarding guard if not).
+
+**What you must provide:**
+- Company name and role title
+- Current interview stage
+- Job description (pasted or URL)
+- Interviewer names if known (optional — enables interviewer research)
+- Interview date (optional)
+
+**What the agent handles automatically:**
+- Researching company product, business model, competitors, and recent news
+- Fetching the JD from a URL
+- Researching interviewer backgrounds
+- Writing all findings into `inputs/02_target_company_role.md`
 
 **Outputs it creates:**
 
@@ -127,7 +160,7 @@ Reads your populated profile and generates a stage-specific prep document. Requi
 |------|--------------------|---------------|
 | `inputs/00_user_profile.md` | Onboarding agent (auto) | §1 facts & metrics, §2 STAR+ stories A–K, §3 Q&A bank, §4 frameworks, §5 references, §6 story mapping |
 | `inputs/01_cv_resume.md` | Onboarding agent (auto) | Structured CV: roles, achievements, education, skills, raw CV text |
-| `inputs/02_target_company_role.md` | You (manual, per application) | Company, role, stage, JD, interviewer names |
+| `inputs/02_target_company_role.md` | Interview-prep agent (auto via web search) + you for required fields | Company context, JD highlights, interviewers |
 
 > **Note:** Do not edit `inputs/00_user_profile.md` or `inputs/01_cv_resume.md` by hand. Re-run the onboarding agent to regenerate them from an updated CV.
 
@@ -166,6 +199,6 @@ Reads your populated profile and generates a stage-specific prep document. Requi
 
 ## Version
 
-- **Version:** 3.1
+- **Version:** 3.2
 - **Last Updated:** February 2026
-- **Changes:** Added dedicated onboarding agent for automatic CV parsing; `inputs/01_cv_resume.md` is now an agent output (not a manual input); interview-prep agent now includes preflight profile guard
+- **Changes:** Interview-prep agent now auto-researches company context via web search and WebFetch; `inputs/02_target_company_role.md` is now populated automatically — no manual research required

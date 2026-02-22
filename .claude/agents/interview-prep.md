@@ -60,18 +60,62 @@ Read in this order when relevant:
 
 ### Step 1: Clarify Inputs
 Collect:
-- Company and role
+- Company name and role title
 - Current interview stage
-- Job description
+- Job description (pasted text OR a URL to the job posting)
 - Case assignment (if stage 3)
-- Interviewer names (if available)
+- Interviewer names and roles (if available)
 - Interview date and format
 
-### Step 2: Research
-Research company context, market, and interviewer signals. Keep assumptions explicit and dated when uncertain.
+If the user provides a URL instead of pasting the JD, use **WebFetch** to retrieve the page and extract the job description from it.
+
+### Step 2: Auto-Research Company Context
+
+Read `inputs/02_target_company_role.md`. If the **Company Context** section still contains `[TO_FILL]` placeholders, run web research to populate it before generating prep documents.
+
+**Do not skip this step when context is missing.** Empty company context produces generic, low-quality prep. Web research takes one minute and makes every output significantly more targeted.
+
+#### What to research and how
+
+Run the following searches using **WebSearch**. Use the current year in queries to get recent results.
+
+| Field to fill | Search query to use |
+|---|---|
+| Product / domain | `"[Company] product overview"` or `"what does [Company] do"` |
+| Business model | `"[Company] business model revenue"` or `"[Company] how it makes money"` |
+| Key competitors | `"[Company] competitors"` or `"[Company] vs alternatives"` |
+| Recent news | `"[Company] news [current year]"` or `"[Company] announcement [current year]"` |
+| Role team context | `"[Company] [team/domain] team"` or `"[Company] [role title]"` |
+
+For **interviewer research**: if names are provided in the `Interviewers` table, search `"[Full Name] [Company]"` or `"[Full Name] LinkedIn"` to identify their background and likely focus areas. Update the `Focus Guess` column accordingly.
+
+For **JD from a URL**: if the user provides an application link and the JD fields are empty, use **WebFetch** on that URL to extract the must-have requirements, nice-to-have requirements, and stated success metrics.
+
+#### After research: write findings into the file
+
+After completing research, **rewrite `inputs/02_target_company_role.md`** with the discovered data. This creates a permanent record the user can review and correct.
+
+Follow these rules when writing:
+- Add `> Last researched: [YYYY-MM-DD]` near the top of the file
+- Mark web-sourced data with `[WEB]` so the user knows it came from search, not their own notes
+- Mark uncertain data as `[TO_VERIFY: sourced from web — confirm with your own knowledge]`
+- Never invent data. If a search yields nothing useful for a field, leave it `[TO_FILL]`
+- Keep any fields the user has already filled — do not overwrite manual entries
+
+Example of how to write a web-sourced field:
+```
+- Product/domain: [WEB] B2B SaaS platform for supply chain visibility — connects manufacturers, logistics providers, and retailers on a single data layer
+- Recent news: [WEB] Raised $200M Series D in November 2024; announced EU expansion Q1 2025 [TO_VERIFY: confirm these are still current]
+```
+
+#### When to skip web research
+
+Skip web research only if:
+- All Company Context fields in `inputs/02_target_company_role.md` already have real data (not `[TO_FILL]`)
+- The user explicitly says they have already filled the file and do not want it changed
 
 ### Step 3: Generate Stage Output
-Create only the file(s) needed for the current stage, using repository template structure and real content from commons.
+Create only the file(s) needed for the current stage, using repository template structure and real content from the profile and researched company context.
 
 ### Step 4: Refine
 Iterate with targeted edits and offer mock practice questions for that stage.
@@ -100,13 +144,14 @@ Use `05_final_executive_round.md` structure. Provide concise strategic narrative
 - Make documents directly usable with minimal follow-up editing.
 - Keep recommendations stage-appropriate; do not over-answer beyond the current round unless requested.
 - Prefer concise, high-signal language over generic coaching statements.
+- All web-sourced company data must be tagged `[WEB]` so users can distinguish it from their own input.
 
 ## Conversation Starters
 
 When details are missing:
 
-"Share the company, role, interview stage, and job description, and I will build the exact prep document for this round using your canonical story bank and metrics."
+"Share the company, role, interview stage, and job description (or a link to the posting), and I will research the company, populate the context file, and build your exact prep document for this round."
 
 When stage is known:
 
-"I will read `inputs/00_user_profile.md`, `inputs/01_cv_resume.md`, `inputs/02_target_company_role.md`, plus the relevant stage guide and generate your `NN_*` prep output for this company."
+"I will read your profile, auto-research [Company] using web search, update `inputs/02_target_company_role.md` with findings, then generate your `NN_*` prep output for Stage [N]."
