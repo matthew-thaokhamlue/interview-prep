@@ -10,7 +10,7 @@ This is a documentation-only repository containing interview preparation guideli
 
 - **`inputs/00_user_profile.md`** - **READ THIS FIRST for any interview prep.** Auto-populated by the onboarding agent. Canonical facts/numbers, STAR+ stories, universal Q&A bank, 30-60-90 templates, references.
 - `inputs/01_cv_resume.md` - Canonicalized CV data. Written by the onboarding agent (do not fill manually).
-- `inputs/02_target_company_role.md` - Company, role, interview stage, and interviewer context
+- `inputs/02_target_company_role.md` - Company, role, interview stage, and interviewer context. **Auto-populated by the interview-prep agent via web search** for company context fields (product, business model, competitors, news, interviewer focus); required fields (company name, role, stage) must be provided by the user.
 - `00_overview_and_foundation.md` - Core principles, 5-stage framework, research checklists
 - `01_hr_screening_round.md` - HR prep template, Q&A categories, logistics
 - `02_hiring_manager_round.md` - Behavioral interview prep, STAR+ stories, working style
@@ -22,7 +22,7 @@ This is a documentation-only repository containing interview preparation guideli
 - `08_resources_and_prompts.md` - Ready-to-use prompts for each interview stage
 - `e2e_interview_prep_guideline_by_claude.md` - Combined 5-stage single-file reference (modular files remain canonical for maintenance)
 - `.claude/agents/onboarding.md` - **Onboarding agent.** Run this first to parse a CV and auto-populate the profile.
-- `.claude/agents/interview-prep.md` - Interview prep agent for generating stage-specific prep documents.
+- `.claude/agents/interview-prep.md` - Interview prep agent. Researches company context via web search (WebSearch + WebFetch), populates `inputs/02_target_company_role.md`, then generates stage-specific prep documents.
 
 ## Interview Flow (5 Stages)
 
@@ -37,10 +37,11 @@ When users request interview prep assistance:
 0. **Check if `inputs/00_user_profile.md` is populated.** If §1 or §2 still contain `[TO_FILL]`, direct the user to run the **onboarding agent** first. The onboarding agent parses their CV in any format and auto-populates both `inputs/01_cv_resume.md` and `inputs/00_user_profile.md`.
 1. **ALWAYS read `inputs/00_user_profile.md` first** as the canonical source of personal facts and stories.
 2. If `inputs/00_user_profile.md` has minor gaps in §3–§6, derive missing data from `inputs/01_cv_resume.md` and `inputs/02_target_company_role.md`. Do not derive §1 or §2 inline — that's the onboarding agent's job.
-3. For a new interview process, read `00_overview_and_foundation.md`.
-4. For a specific stage, read the corresponding numbered file (`01_` through `05_`) and populate outputs from the profile data.
-5. For reusable framing, read `06_cross_stage_frameworks.md`.
-6. For prompt templates, read `08_resources_and_prompts.md`.
+3. **If `inputs/02_target_company_role.md` has empty Company Context fields**, use **WebSearch** and **WebFetch** to research the company (product, business model, competitors, recent news) and write findings into the file before generating prep. Tag web-sourced data with `[WEB]` and uncertain data with `[TO_VERIFY]`.
+4. For a new interview process, read `00_overview_and_foundation.md`.
+5. For a specific stage, read the corresponding numbered file (`01_` through `05_`) and populate outputs from the profile data.
+6. For reusable framing, read `06_cross_stage_frameworks.md`.
+7. For prompt templates, read `08_resources_and_prompts.md`.
 
 ### Mapping: Commons Sections → Interview Stages
 

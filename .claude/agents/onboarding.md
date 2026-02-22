@@ -196,8 +196,8 @@ List each [TO_VERIFY] item with its location (file, section) and the reason it n
 
 ### Next steps
 1. Review and correct any [TO_VERIFY] items above
-2. Fill `inputs/02_target_company_role.md` with company, role, stage, and JD details
-3. Run the **interview-prep** agent to generate your first stage prep document
+2. Run the **interview-prep** agent — tell it the company name, role, current stage, and job description (paste the text or provide the URL). The agent will **automatically research the company** using web search and populate `inputs/02_target_company_role.md` for you before generating your prep document.
+3. Optionally, pre-fill `inputs/02_target_company_role.md` yourself if you want to control the company context — the agent will use your data and skip searching for any fields you have already filled.
 ```
 
 ---
