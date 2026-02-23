@@ -4,3 +4,6 @@
 # Private/local personal inputs (keep local, do not publish)
 inputs/*commons*.md
 inputs/*cv*.txt
+
+# Local working docs (planning notes, drafts — not for publishing)
+working_docs/

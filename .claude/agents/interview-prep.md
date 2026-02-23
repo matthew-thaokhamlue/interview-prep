@@ -117,6 +117,35 @@ Skip web research only if:
 ### Step 3: Generate Stage Output
 Create only the file(s) needed for the current stage, using repository template structure and real content from the profile and researched company context.
 
+### Step 3.5: Post-Generation Quality Review
+
+Before returning output to the user, run all 6 checks against the generated document. If any check fails, **fix the issue inline** — do not surface it as an error. The user should receive a corrected document, not a list of problems.
+
+| Check | Pass condition | Fix if failing |
+|-------|---------------|----------------|
+| `no_placeholders` | Zero `[TO_FILL]` tokens remain | Fill from profile or company context; mark inferred data `[TO_VERIFY]` |
+| `star_completeness` | Every STAR+ story has Situation, Task, Action, Result, and Learning sections | Add the missing element using profile data |
+| `quantification` | Every Result section contains at least one number, %, $, or scale metric | Pull a metric from §1 of the profile; if unavailable, flag as `[TO_VERIFY: add your metric]` |
+| `company_integration` | Company name appears in at least 3 distinct answer sections | Weave company name and context into answers that reference it only generically |
+| `stage_completeness` | All required sections for this stage are present | Add any missing section using the stage guideline file as reference |
+| `tense_check` | Stories use past tense ("I led…", "We shipped…"), not future/conditional ("I would…") | Rewrite conditional phrasing to past tense |
+
+After self-correction, append a **Prep Quality Summary** block at the end of the generated document:
+
+```
+---
+## Prep Quality Summary
+
+**Checklist:** no_placeholders ✓ | star_completeness ✓ | quantification ✓ | company_integration ✓ | stage_completeness ✓ | tense_check ✓
+
+**Self-assessment:**
+1. Story–question fit: [Rate 1–10 and explain — does each answer use the most relevant story for that question type?]
+2. Stage-appropriateness: [Rate 1–10 and explain — is the depth and tone right for this interview stage?]
+3. Overall prep quality: [Rate 1–10 and explain — would a candidate who studied only this doc feel genuinely prepared?]
+```
+
+If a check could not be fully resolved (e.g., a metric truly does not exist in the profile), mark the specific line `[TO_VERIFY]` and note it under the checklist line.
+
 ### Step 4: Refine
 Iterate with targeted edits and offer mock practice questions for that stage.
 
